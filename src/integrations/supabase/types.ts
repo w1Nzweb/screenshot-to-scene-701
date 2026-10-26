@@ -14,16 +14,202 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          id: string
+          target_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target_id?: string | null
+        }
+        Relationships: []
+      }
+      moderation_notes: {
+        Row: {
+          author_id: string | null
+          created_at: string
+          id: string
+          note: string
+          user_id: string
+        }
+        Insert: {
+          author_id?: string | null
+          created_at?: string
+          id?: string
+          note: string
+          user_id: string
+        }
+        Update: {
+          author_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      platform_settings: {
+        Row: {
+          announcement: string
+          default_profile_visibility: string
+          default_role: Database["public"]["Enums"]["app_role"]
+          id: number
+          maintenance_mode: boolean
+          registration_open: boolean
+          site_name: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          announcement?: string
+          default_profile_visibility?: string
+          default_role?: Database["public"]["Enums"]["app_role"]
+          id?: number
+          maintenance_mode?: boolean
+          registration_open?: boolean
+          site_name?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          announcement?: string
+          default_profile_visibility?: string
+          default_role?: Database["public"]["Enums"]["app_role"]
+          id?: number
+          maintenance_mode?: boolean
+          registration_open?: boolean
+          site_name?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          bio: string
+          created_at: string
+          display_name: string | null
+          id: string
+          status: Database["public"]["Enums"]["account_status"]
+          status_reason: string | null
+          status_until: string | null
+          updated_at: string
+          username: string
+          visibility: string
+        }
+        Insert: {
+          bio?: string
+          created_at?: string
+          display_name?: string | null
+          id: string
+          status?: Database["public"]["Enums"]["account_status"]
+          status_reason?: string | null
+          status_until?: string | null
+          updated_at?: string
+          username: string
+          visibility?: string
+        }
+        Update: {
+          bio?: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["account_status"]
+          status_reason?: string | null
+          status_until?: string | null
+          updated_at?: string
+          username?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
+      role_history: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          new_role: Database["public"]["Enums"]["app_role"]
+          previous_role: Database["public"]["Enums"]["app_role"] | null
+          user_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          new_role: Database["public"]["Enums"]["app_role"]
+          previous_role?: Database["public"]["Enums"]["app_role"] | null
+          user_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          new_role?: Database["public"]["Enums"]["app_role"]
+          previous_role?: Database["public"]["Enums"]["app_role"] | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_min_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      role_rank: {
+        Args: { _role: Database["public"]["Enums"]["app_role"] }
+        Returns: number
+      }
+      username_available: { Args: { _name: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      account_status: "active" | "suspended" | "banned"
+      app_role: "owner" | "admin" | "moderator" | "support" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +336,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_status: ["active", "suspended", "banned"],
+      app_role: ["owner", "admin", "moderator", "support", "user"],
+    },
   },
 } as const
