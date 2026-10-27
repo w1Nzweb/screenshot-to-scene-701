@@ -5,7 +5,9 @@ import {
   LayoutDashboard, UserCog, ShieldCheck, Gavel, BarChart3, ScrollText, SlidersHorizontal, Megaphone,
 } from "lucide-react";
 import { EyeMark, Logo, EYE_URL } from "./Logo";
-import { useAccess, useMyProfile, useSettings, useSignOut } from "@/hooks/use-seeker";
+import { useNavigate } from "@tanstack/react-router";
+import { Search } from "lucide-react";
+import { useAccess, useSettings, useSignOut } from "@/hooks/use-seeker";
 import { atLeast, type AppRole } from "@/lib/validation";
 
 type Item = { to: string; label: string; icon: typeof User; min?: AppRole; exact?: boolean };
@@ -37,8 +39,8 @@ function NavLink({ item, path, onClick }: { item: Item; path: string; onClick?: 
     <Link
       to={item.to}
       onClick={onClick}
-      className={`flex items-center gap-3 px-2 py-2.5 text-[15px] transition-colors ${
-        active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] transition-colors ${
+        active ? "bg-row-hover text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
       }`}
       aria-current={active ? "page" : undefined}
     >
@@ -51,7 +53,6 @@ function NavLink({ item, path, onClick }: { item: Item; path: string; onClick?: 
 export function AppShell({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const { data: access } = useAccess();
-  const { data: profile } = useMyProfile();
   const { data: settings } = useSettings();
   const signOut = useSignOut();
   const [open, setOpen] = useState(false);
@@ -76,8 +77,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Link to="/profile" onClick={() => setOpen(false)}><Logo /></Link>
         <button className="md:hidden text-muted-foreground" onClick={() => setOpen(false)} aria-label="Close menu"><X className="h-5 w-5" /></button>
       </div>
-      <p className="mt-6 truncate text-sm font-semibold text-foreground">{profile?.display_name || profile?.username || " "}</p>
-      <nav className="mt-3 flex flex-col" aria-label="Main">
+      <nav className="mt-6 gap-1 flex flex-col" aria-label="Main">
         {inAdmin ? (
           <>
             <Link to="/profile" onClick={() => setOpen(false)} className="mb-2 px-2 py-2 text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">← Back to SEEKER</Link>
@@ -100,9 +100,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           <img src={EYE_URL} alt="SEEKER" className="h-full w-full object-contain" />
         </div>
       )}
+      {!inAdmin && <SearchId onDone={() => setOpen(false)} />}
       <div className="mt-auto flex flex-col pt-6">
         <NavLink item={{ to: "/account", label: "Account settings", icon: Settings }} path={path} onClick={() => setOpen(false)} />
-        <button onClick={() => signOut()} className="flex items-center gap-3 px-2 py-2.5 text-[15px] text-muted-foreground hover:text-foreground">
+        <button onClick={() => signOut()} className="flex items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-secondary text-[15px] text-muted-foreground hover:text-foreground">
           <LogOut className="h-[18px] w-[18px]" strokeWidth={1.6} /> Sign out
         </button>
       </div>
@@ -175,4 +176,23 @@ export function Pager({ page, total, size, onPage }: { page: number; total: numb
 export function StatusDot({ status }: { status: string }) {
   const cls = status === "banned" ? "bg-destructive" : status === "suspended" ? "bg-warning" : status === "online" ? "bg-success" : status === "away" ? "bg-warning" : status === "active" ? "bg-success" : "bg-muted-foreground";
   return <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${cls}`} aria-hidden />;
+}
+
+function SearchId({ onDone }: { onDone: () => void }) {
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  return (
+    <form
+      className="relative mt-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!q.trim()) return;
+        onDone();
+        navigate({ to: "/search", search: { id: q.trim() } });
+      }}
+    >
+      <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search ID" aria-label="Search ID" className="field rounded-lg pl-9" />
+    </form>
+  );
 }
