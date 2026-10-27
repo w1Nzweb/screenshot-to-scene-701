@@ -22,6 +22,7 @@ import { Route as AuthenticatedMediaRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedNicknamesRouteImport } from './routes/_authenticated/nicknames'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedReportRouteImport } from './routes/_authenticated/report'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedServersRouteImport } from './routes/_authenticated/servers'
 
 const IndexRoute = IndexRouteImport.update({
@@ -88,6 +89,11 @@ const AuthenticatedReportRoute = AuthenticatedReportRouteImport.update({
   path: '/report',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedServersRoute = AuthenticatedServersRouteImport.update({
   id: '/servers',
   path: '/servers',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/nicknames': typeof AuthenticatedNicknamesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/report': typeof AuthenticatedReportRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/servers': typeof AuthenticatedServersRoute
 }
 export interface FileRoutesByTo {
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/nicknames': typeof AuthenticatedNicknamesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/report': typeof AuthenticatedReportRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/servers': typeof AuthenticatedServersRoute
 }
 export interface FileRoutesById {
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/_authenticated/nicknames': typeof AuthenticatedNicknamesRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/report': typeof AuthenticatedReportRoute
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/servers': typeof AuthenticatedServersRoute
 }
 export interface FileRouteTypes {
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/nicknames'
     | '/profile'
     | '/report'
+    | '/search'
     | '/servers'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/nicknames'
     | '/profile'
     | '/report'
+    | '/search'
     | '/servers'
   id:
     | '__root__'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/_authenticated/nicknames'
     | '/_authenticated/profile'
     | '/_authenticated/report'
+    | '/_authenticated/search'
     | '/_authenticated/servers'
   fileRoutesById: FileRoutesById
 }
@@ -292,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReportRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/servers': {
       id: '/_authenticated/servers'
       path: '/servers'
@@ -310,6 +329,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNicknamesRoute: typeof AuthenticatedNicknamesRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedReportRoute: typeof AuthenticatedReportRoute
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedServersRoute: typeof AuthenticatedServersRoute
 }
 
@@ -321,6 +341,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNicknamesRoute: AuthenticatedNicknamesRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedReportRoute: AuthenticatedReportRoute,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedServersRoute: AuthenticatedServersRoute,
 }
 
