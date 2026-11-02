@@ -81,7 +81,7 @@ function Roles() {
           catch (e) { toast.error(errMsg(e)); throw e; }
         }} />
       <Confirm open={dlg === "owner"} danger onOpenChange={(o) => !o && setDlg(null)} title="Transfer ownership?"
-        description="You will become an Administrator. This cannot be undone by you." typeToConfirm={sel?.username} confirmLabel="Transfer"
+        description="You will become an Administrator. This cannot be undone by you." typeToConfirm={sel?.username ?? ""} confirmLabel="Transfer"
         onConfirm={async (typed) => {
           try { await transfer({ data: { userId: sel!.id, confirmUsername: typed } }); toast.success("Ownership transferred."); window.location.reload(); }
           catch (e) { toast.error(errMsg(e)); throw e; }

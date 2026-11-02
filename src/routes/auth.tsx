@@ -30,8 +30,8 @@ function LoginPage() {
     e.preventDefault();
     if (loading) return;
     const errs: Record<string, string> = {};
-    if (!email.trim()) errs.email = "Email is required.";
-    if (!password) errs.password = "Password is required.";
+    if (!email.trim()) errs["email"] = "Email is required.";
+    if (!password) errs["password"] = "Password is required.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setLoading(true);
@@ -51,10 +51,10 @@ function LoginPage() {
   return (
     <AuthLayout title="Welcome back" subtitle="Enter your credentials to continue.">
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Field label="Email" id="email" error={errors.email}>
+        <Field label="Email" id="email" error={errors["email"]}>
           <input id="email" type="email" autoComplete="email" className="field" value={email} onChange={(e) => setEmail(e.target.value)} />
         </Field>
-        <Field label="Password" id="password" error={errors.password}>
+        <Field label="Password" id="password" error={errors["password"]}>
           <div className="relative">
             <input id="password" type={show ? "text" : "password"} autoComplete="current-password" className="field pr-10" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button type="button" onClick={() => setShow((s) => !s)} aria-label={show ? "Hide password" : "Show password"} className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted-foreground hover:text-foreground">
@@ -69,7 +69,7 @@ function LoginPage() {
           </label>
           <Link to="/forgot-password" className="text-muted-foreground hover:text-foreground">Forgot password?</Link>
         </div>
-        {errors.form && <p className="text-xs text-destructive" role="alert">{errors.form}</p>}
+        {errors["form"] && <p className="text-xs text-destructive" role="alert">{errors["form"]}</p>}
         <button type="submit" disabled={loading} className="btn btn-primary w-full">
           {loading && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
         </button>

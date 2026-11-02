@@ -30,8 +30,8 @@ function ResetPage() {
     if (loading) return;
     const errs: Record<string, string> = {};
     const p = passwordProblem(pw);
-    if (p) errs.pw = p;
-    if (pw !== confirm) errs.confirm = "Passwords do not match.";
+    if (p) errs["pw"] = p;
+    if (pw !== confirm) errs["confirm"] = "Passwords do not match.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setLoading(true);
@@ -45,10 +45,10 @@ function ResetPage() {
   return (
     <AuthLayout title="Set a new password">
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Field label="New password" id="pw" error={errors.pw}>
+        <Field label="New password" id="pw" error={errors["pw"]}>
           <input id="pw" type="password" className="field" value={pw} onChange={(e) => setPw(e.target.value)} />
         </Field>
-        <Field label="Confirm password" id="confirm" error={errors.confirm}>
+        <Field label="Confirm password" id="confirm" error={errors["confirm"]}>
           <input id="confirm" type="password" className="field" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
         </Field>
         <button type="submit" disabled={loading} className="btn btn-primary w-full">
