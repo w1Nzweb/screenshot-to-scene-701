@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { seo } from "@/lib/seo";
 import { PageHeader, StatusDot } from "@/components/seeker/AppShell";
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
   component: Profile,
 });
 
-type Field = { name: string; note: string; value: React.ReactNode };
+type Field = { name: string; note: string; value: ReactNode };
 
 const dash = (v?: string | null) => (v && v.trim() ? v : "—");
 
