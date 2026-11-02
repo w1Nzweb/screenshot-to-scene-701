@@ -10,12 +10,12 @@ export function Confirm({
   open: boolean;
   onOpenChange: (o: boolean) => void;
   title: string;
-  description?: ReactNode;
-  confirmLabel?: string;
-  danger?: boolean;
-  typeToConfirm?: string;
+  description?: ReactNode | undefined;
+  confirmLabel?: string | undefined;
+  danger?: boolean | undefined;
+  typeToConfirm?: string | undefined;
   onConfirm: (typed: string) => Promise<void> | void;
-  children?: ReactNode;
+  children?: ReactNode | undefined;
 }) {
   const [typed, setTyped] = useState("");
   const [busy, setBusy] = useState(false);

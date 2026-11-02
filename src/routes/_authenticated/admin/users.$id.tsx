@@ -52,7 +52,7 @@ function UserDetail() {
 
   return (
     <div>
-      <PageHeader title={d.profile.username} subtitle={d.profile.display_name ?? undefined} action={<Link to="/admin/users" className="btn btn-ghost">All users</Link>} />
+      <PageHeader title={d.profile.username} subtitle={d.profile.display_name ?? ""} action={<Link to="/admin/users" className="btn btn-ghost">All users</Link>} />
       <KV k="Profile ID" v={<button className="inline-flex items-center gap-2 font-mono text-xs" onClick={() => { navigator.clipboard.writeText(d.profile.id); toast.success("Copied."); }}>{d.profile.id}<Copy className="h-3.5 w-3.5" /></button>} />
       <KV k="Email" v={d.email ?? "Requires administrator"} />
       <KV k="Role" v={ROLE_LABEL[d.role]} />

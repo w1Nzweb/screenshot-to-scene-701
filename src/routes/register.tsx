@@ -49,13 +49,13 @@ function RegisterPage() {
     e.preventDefault();
     if (loading) return;
     const errs: Record<string, string> = {};
-    if (!USERNAME_RE.test(form.username)) errs.username = "3–24 characters: letters, numbers, _ or .";
-    else if (available === false) errs.username = "This username is taken.";
-    if (!EMAIL_RE.test(form.email)) errs.email = "Enter a valid email.";
+    if (!USERNAME_RE.test(form.username)) errs["username"] = "3–24 characters: letters, numbers, _ or .";
+    else if (available === false) errs["username"] = "This username is taken.";
+    if (!EMAIL_RE.test(form.email)) errs["email"] = "Enter a valid email.";
     const pw = passwordProblem(form.password);
-    if (pw) errs.password = pw;
-    if (form.password !== form.confirm) errs.confirm = "Passwords do not match.";
-    if (!agree) errs.agree = "You must accept the terms.";
+    if (pw) errs["password"] = pw;
+    if (form.password !== form.confirm) errs["confirm"] = "Passwords do not match.";
+    if (!agree) errs["agree"] = "You must accept the terms.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setLoading(true);
@@ -86,27 +86,27 @@ function RegisterPage() {
     <AuthLayout title="Create your account">
       {!regOpen && <p className="mb-4 text-xs text-warning">Registration is currently closed by the administrators.</p>}
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Field label="Username" id="username" error={errors.username}>
+        <Field label="Username" id="username" error={errors["username"]}>
           <input id="username" autoComplete="username" className="field" value={form.username} onChange={set("username")} />
-          {available !== null && !errors.username && (
+          {available !== null && !errors["username"] && (
             <p className={`text-xs ${available ? "text-success" : "text-destructive"}`}>{available ? "Available" : "Taken"}</p>
           )}
         </Field>
-        <Field label="Email" id="email" error={errors.email}>
+        <Field label="Email" id="email" error={errors["email"]}>
           <input id="email" type="email" autoComplete="email" className="field" value={form.email} onChange={set("email")} />
         </Field>
-        <Field label="Password" id="password" error={errors.password}>
+        <Field label="Password" id="password" error={errors["password"]}>
           <input id="password" type="password" autoComplete="new-password" className="field" value={form.password} onChange={set("password")} />
         </Field>
-        <Field label="Confirm password" id="confirm" error={errors.confirm}>
+        <Field label="Confirm password" id="confirm" error={errors["confirm"]}>
           <input id="confirm" type="password" autoComplete="new-password" className="field" value={form.confirm} onChange={set("confirm")} />
         </Field>
         <label className="flex items-start gap-2 text-xs text-muted-foreground">
           <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 accent-foreground" />
           I agree to the Terms of Service and Privacy Policy.
         </label>
-        {errors.agree && <p className="text-xs text-destructive">{errors.agree}</p>}
-        {errors.form && <p className="text-xs text-destructive" role="alert">{errors.form}</p>}
+        {errors["agree"] && <p className="text-xs text-destructive">{errors["agree"]}</p>}
+        {errors["form"] && <p className="text-xs text-destructive" role="alert">{errors["form"]}</p>}
         <button type="submit" disabled={loading || !regOpen} className="btn btn-primary w-full">
           {loading && <Loader2 className="h-4 w-4 animate-spin" />} Create account
         </button>

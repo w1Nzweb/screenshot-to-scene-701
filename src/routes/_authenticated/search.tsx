@@ -7,7 +7,7 @@ import { UUID_RE } from "@/lib/validation";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/_authenticated/search")({
-  validateSearch: (s: Record<string, unknown>) => ({ id: typeof s.id === "string" ? s.id.slice(0, 64) : "" }),
+  validateSearch: (s: Record<string, unknown>) => ({ id: typeof s["id"] === "string" ? s["id"].slice(0, 64) : "" }),
   head: () => seo("Search ID", "Find a SEEKER profile by ID."),
   component: SearchPage,
 });

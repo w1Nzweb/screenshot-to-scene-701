@@ -136,7 +136,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string | undefined; action?: ReactNode | undefined }) {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border px-6 py-6 md:px-8">
       <div className="min-w-0">

@@ -23,13 +23,13 @@ function AccountPage() {
 
   async function changePassword() {
     const prob = passwordProblem(pw);
-    if (!cur) return toast.error("Enter your current password.");
-    if (prob) return toast.error(prob);
-    if (pw !== confirm) return toast.error("Passwords do not match.");
+    if (!cur) { toast.error("Enter your current password."); return; }
+    if (prob) { toast.error(prob); return; }
+    if (pw !== confirm) { toast.error("Passwords do not match."); return; }
     setBusy(true);
     const { error } = await supabase.auth.updateUser({ password: pw, current_password: cur } as any);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Password changed.");
     setCur(""); setPw(""); setConfirm("");
   }

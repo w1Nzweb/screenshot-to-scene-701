@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import clouds from "@/assets/clouds.png.asset.json";
 import { Logo } from "./Logo";
 
-export function AuthLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+export function AuthLayout({ title, subtitle, children }: { title: string; subtitle?: string | undefined; children: ReactNode }) {
   return (
     <div
       className="relative min-h-screen w-full bg-ink bg-cover bg-center"
@@ -28,7 +28,7 @@ export function Field({
 }: {
   label: string;
   id: string;
-  error?: string;
+  error?: string | undefined;
   children: ReactNode;
 }) {
   return (

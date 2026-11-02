@@ -86,8 +86,8 @@ export const adminOverview = createServerFn({ method: "GET" })
     const names = await usernames(db, (actions.data ?? []).flatMap((a: any) => [a.actor_id, a.target_id]));
     return {
       total: total.count ?? 0,
-      admins: (roleCounts.admin ?? 0) + (roleCounts.owner ?? 0),
-      moderators: roleCounts.moderator ?? 0,
+      admins: (roleCounts["admin"] ?? 0) + (roleCounts["owner"] ?? 0),
+      moderators: roleCounts["moderator"] ?? 0,
       banned: banned.count ?? 0,
       suspended: suspended.count ?? 0,
       newThisWeek: week.count ?? 0,
