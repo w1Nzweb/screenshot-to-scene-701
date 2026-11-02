@@ -40,7 +40,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold text-foreground">This page didn't load</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{error.message || "Something went wrong."}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{(error instanceof Error ? error.message : String(error)) || "Something went wrong."}</p>
         <div className="mt-6 flex justify-center gap-2">
           <button onClick={() => { router.invalidate(); reset(); }} className="btn btn-primary">Try again</button>
           <a href="/" className="btn btn-ghost">Go home</a>
